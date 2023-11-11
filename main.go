@@ -2,6 +2,7 @@ package main
 
 import (
 	"html/template"
+	"log"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -19,8 +20,5 @@ func main() {
 			return
 		}
 	})
-	err := http.ListenAndServe("localhost:3000", r)
-	if err != nil {
-		return
-	}
+	log.Fatal(http.ListenAndServe("localhost:3000", r))
 }

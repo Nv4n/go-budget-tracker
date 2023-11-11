@@ -287,6 +287,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@riccox/colorify@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "@riccox/colorify@npm:0.2.2"
+  dependencies:
+    chroma-js: ^2.4.2
+  checksum: cb4db856ec024a8c1aa4861e3d28a50b00c8ba0dd18460f1f6b188dc1f4f566ce942e7576fd6e0af86bc98f360d18332d912f83e3da27720ce548c266da94c62
+  languageName: node
+  linkType: hard
+
+"@sira-ui/tailwind@npm:^0.11.8":
+  version: 0.11.8
+  resolution: "@sira-ui/tailwind@npm:0.11.8"
+  dependencies:
+    "@riccox/colorify": ^0.2.2
+    postcss: 8.4.27
+    postcss-js: 4.0.1
+    postcss-selector-parser: ^6.0.13
+    tailwindcss: ^3.3.3
+  peerDependencies:
+    lodash: ^4.17.21
+    tailwindcss: ^3
+  checksum: 83e764d3e2d8808e47ba3afa6f0180a8f3f6b4badf64cd3634b4f9d17f5c507a71ea4fa8a0bc5f664ce1275630328ea4406b4e8f2c32ab63a2cca2cb3ce494d4
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:^20.9.0":
   version: 20.9.0
   resolution: "@types/node@npm:20.9.0"
@@ -517,6 +542,13 @@ __metadata:
   version: 2.0.0
   resolution: "chownr@npm:2.0.0"
   checksum: c57cf9dd0791e2f18a5ee9c1a299ae6e801ff58fee96dc8bfd0dcb4738a6ce58dd252a3605b1c93c6418fe4f9d5093b28ffbf4d66648cb2a9c67eaef9679be2f
+  languageName: node
+  linkType: hard
+
+"chroma-js@npm:^2.4.2":
+  version: 2.4.2
+  resolution: "chroma-js@npm:2.4.2"
+  checksum: cf9884c02d406286e4370599bcd1afbf089384407df46b3a69edfedcba7bb99e8f959a5cfdbfec750b305c441c06ca40cd1f70ba3a6c2ce739ac09a92520ddae
   languageName: node
   linkType: hard
 
@@ -942,6 +974,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "go-budget-tracker@workspace:."
   dependencies:
+    "@sira-ui/tailwind": ^0.11.8
     "@types/node": ^20.9.0
     autoprefixer: ^10.4.16
     concurrently: ^8.2.2
@@ -1528,7 +1561,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-js@npm:^4.0.1":
+"postcss-js@npm:4.0.1, postcss-js@npm:^4.0.1":
   version: 4.0.1
   resolution: "postcss-js@npm:4.0.1"
   dependencies:
@@ -1568,7 +1601,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-selector-parser@npm:^6.0.11":
+"postcss-selector-parser@npm:^6.0.11, postcss-selector-parser@npm:^6.0.13":
   version: 6.0.13
   resolution: "postcss-selector-parser@npm:6.0.13"
   dependencies:
@@ -1582,6 +1615,17 @@ __metadata:
   version: 4.2.0
   resolution: "postcss-value-parser@npm:4.2.0"
   checksum: 819ffab0c9d51cf0acbabf8996dffbfafbafa57afc0e4c98db88b67f2094cb44488758f06e5da95d7036f19556a4a732525e84289a425f4f6fd8e412a9d7442f
+  languageName: node
+  linkType: hard
+
+"postcss@npm:8.4.27":
+  version: 8.4.27
+  resolution: "postcss@npm:8.4.27"
+  dependencies:
+    nanoid: ^3.3.6
+    picocolors: ^1.0.0
+    source-map-js: ^1.0.2
+  checksum: 1cdd0c298849df6cd65f7e646a3ba36870a37b65f55fd59d1a165539c263e9b4872a402bf4ed1ca1bc31f58b68b2835545e33ea1a23b161a1f8aa6d5ded81e78
   languageName: node
   linkType: hard
 
@@ -1988,7 +2032,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^3.3.5":
+"tailwindcss@npm:^3.3.3, tailwindcss@npm:^3.3.5":
   version: 3.3.5
   resolution: "tailwindcss@npm:3.3.5"
   dependencies:
