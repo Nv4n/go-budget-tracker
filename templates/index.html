@@ -1,0 +1,62 @@
+{{ define "Base" }}
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>HTMX Go Todo</title>
+		<link href="/static/index.css" rel="stylesheet" />
+		<script src="/static/htmx.js" type="text/javascript"></script>
+	</head>
+
+	<body>
+		<p class="mx-auto my-2 w-max text-2xl">Hello World</p>
+		<a
+			href="#"
+			class="block max-w-sm rounded-lg border border-gray-200 bg-white p-6 shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+		>
+			<h5
+				class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+			>
+				Noteworthy technology acquisitions 2021
+			</h5>
+
+			<p class="font-normal text-gray-700 dark:text-gray-400">
+				Here are the biggest enterprise technology acquisitions of 2021
+				so far, in reverse chronological order.
+			</p>
+		</a>
+
+		<div
+			class="relative mx-auto h-[600px] w-[300px] rounded-[2.5rem] border-[14px] border-gray-800 bg-gray-800 shadow-xl dark:border-gray-800"
+		>
+			<div
+				class="absolute left-1/2 top-0 h-[18px] w-[148px] -translate-x-1/2 rounded-b-[1rem] bg-gray-800"
+			></div>
+			<div
+				class="absolute -start-[17px] top-[124px] h-[46px] w-[3px] rounded-s-lg bg-gray-800"
+			></div>
+			<div
+				class="absolute -start-[17px] top-[178px] h-[46px] w-[3px] rounded-s-lg bg-gray-800"
+			></div>
+			<div
+				class="absolute -end-[17px] top-[142px] h-[64px] w-[3px] rounded-e-lg bg-gray-800"
+			></div>
+			<div
+				class="h-[572px] w-[272px] overflow-hidden rounded-[2rem] bg-white dark:bg-gray-800"
+			>
+				<img
+					src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/hero/mockup-2-light.png"
+					class="h-[572px] w-[272px] dark:hidden"
+					alt=""
+				/>
+				<img
+					src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/hero/mockup-2-dark.png"
+					class="hidden h-[572px] w-[272px] dark:block"
+					alt=""
+				/>
+			</div>
+		</div>
+	</body>
+</html>
+{{ end }}
