@@ -4,28 +4,21 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "serve": "concurrently \"vite build --watch\" \"tailwindcss -i ./src/index.css -o ./static/index.css --watch\"",
-    "dev": "vite",
-    "server": "go run github.com/Nv4n/go-budget-tracker",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "tcss": "tailwindcss -i ./src/index.css -o ./static/index.css --watch",
+    "server": "go run github.com/Nv4n/go-budget-tracker"
   },
   "devDependencies": {
-    "@types/node": "^20.9.0",
+    "@tailwindcss/forms": "^0.5.7",
     "autoprefixer": "^10.4.16",
-    "concurrently": "^8.2.2",
     "postcss": "^8.4.31",
-    "prettier": "^3.0.3",
+    "prettier": "^3.1.0",
     "prettier-plugin-go-template": "^0.0.15",
     "prettier-plugin-tailwindcss": "^0.5.7",
     "tailwindcss": "^3.3.5",
-    "tailwindcss-animate": "^1.0.7",
-    "typescript": "^5.0.2",
-    "vite": "^4.4.5"
+    "tailwindcss-animate": "^1.0.7"
   },
   "dependencies": {
-    "@sira-ui/tailwind": "^0.11.8",
-    "htmx.org": "^1.9.8"
+    "preline": "^2.0.0"
   },
   "packageManager": "yarn@3.6.4"
 }
