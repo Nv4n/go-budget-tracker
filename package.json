@@ -18,6 +18,8 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "dependencies": {
+    "@preline/strong-password": "^2.0.0",
+    "@preline/tooltip": "^2.0.0",
     "preline": "^2.0.0"
   },
   "packageManager": "yarn@3.6.4"

@@ -2,10 +2,10 @@ module.exports = {
 	darkMode: ["class"],
 	content: [
 		"./templates/**/*{.html,.templ}",
-		"node_modules/preline/dist/*.js",
+		"./node_modules/preline/dist/*.js",
 	],
-	theme:{
-		extend:{}
+	theme: {
+		extend: {},
 	},
 	plugins: [
 		require("tailwindcss-animate"),

@@ -131,6 +131,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@preline/strong-password@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@preline/strong-password@npm:2.0.0"
+  checksum: 0b8f3fe3cd95c60cda3d1f41742943b825e66d33253ccd402ee8fb09d2a35a101f0a656a6a0d870c21fc5cc1e5c6ee688f3c6dfdd83375ef2a859c34c7eb3445
+  languageName: node
+  linkType: hard
+
+"@preline/tooltip@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@preline/tooltip@npm:2.0.0"
+  checksum: f4361713759b463597dfeada8d03a8efd87dcd515c22f26a5e8f5d8d45efdfadc7d7a56746bbac7797acbdad422aea3aa5fdc787eceff86f08cb415147ff6221
+  languageName: node
+  linkType: hard
+
 "@tailwindcss/forms@npm:^0.5.7":
   version: 0.5.7
   resolution: "@tailwindcss/forms@npm:0.5.7"
@@ -654,6 +668,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "go-budget-tracker@workspace:."
   dependencies:
+    "@preline/strong-password": ^2.0.0
+    "@preline/tooltip": ^2.0.0
     "@tailwindcss/forms": ^0.5.7
     autoprefixer: ^10.4.16
     postcss: ^8.4.31
