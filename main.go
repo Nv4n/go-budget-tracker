@@ -1,14 +1,16 @@
 package main
 
 import (
+	"database/sql"
+	"github.com/Nv4n/go-budget-tracker/cmd/dotenv"
 	"html/template"
 	"log"
 	"net/http"
 
-	"github.com/doug-martin/goqu/v9"
 	_ "github.com/doug-martin/goqu/v9/dialect/postgres"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	_ "github.com/lib/pq"
 )
 
 func addCacheControl(h http.Handler, maxAge int) http.Handler {
@@ -19,8 +21,17 @@ func addCacheControl(h http.Handler, maxAge int) http.Handler {
 }
 
 func main() {
-	dialect := goqu.Dialect("postgres")
-	ds := dialect.DB()
+	//dialect := goqu.Dialect("postgres")
+	pgDb, err := sql.Open("postgres", dotenv.GetDotEnvVar("DB_CREDENTIALS"))
+	if err != nil {
+		log.Fatal("Problem opening DB")
+	}
+	if err := pgDb.Ping(); err != nil {
+		log.Fatal("Problem connecting DB")
+	}
+
+	//db := dialect.DB(pgDb)
+
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 
