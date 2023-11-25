@@ -26,6 +26,7 @@ func main() {
 	if err != nil {
 		log.Fatal("Problem opening DB")
 	}
+	defer pgDb.Close()
 	if err := pgDb.Ping(); err != nil {
 		log.Fatal("Problem connecting DB")
 	}

@@ -1,6 +1,30 @@
 # File created using '.gitignore Generator' for Visual Studio Code: https://bit.ly/vscode-gig
-# Created by https://www.toptal.com/developers/gitignore/api/yarn,goland,go,dotenv
-# Edit at https://www.toptal.com/developers/gitignore?templates=yarn,goland,go,dotenv
+# Created by https://www.toptal.com/developers/gitignore/api/yarn,goland,go,dotenv,database,data
+# Edit at https://www.toptal.com/developers/gitignore?templates=yarn,goland,go,dotenv,database,data
+
+### Data ###
+*.csv
+*.dat
+*.efx
+*.gbr
+*.key
+*.pps
+*.ppt
+*.pptx
+*.sdf
+*.tax2010
+*.vcf
+*.xml
+
+### Database ###
+*.accdb
+*.db
+*.dbf
+*.mdb
+*.pdb
+*.sqlite3
+*.db-shm
+*.db-wal
 
 ### dotenv ###
 .env
@@ -158,7 +182,7 @@ fabric.properties
 # and uncomment the following lines
 # .pnp.*
 
-# End of https://www.toptal.com/developers/gitignore/api/yarn,goland,go,dotenv
+# End of https://www.toptal.com/developers/gitignore/api/yarn,goland,go,dotenv,database,data
 
 # Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
 
