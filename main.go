@@ -35,19 +35,17 @@ func main() {
 
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
-
 	staticFileServer := http.StripPrefix("/static/", http.FileServer(http.Dir("./static")))
 	r.Handle("/static/*", addCacheControl(staticFileServer, 31536000))
 	staticFileServer = http.StripPrefix("/preline/", http.FileServer(http.Dir("./node_modules/preline/dist")))
 	r.Handle("/preline/*", addCacheControl(staticFileServer, 31536000))
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		tmpls := template.Must(template.ParseFiles("templates/index.html", "templates/strongpass.html"))
+		tmpls := template.Must(template.ParseFiles("templates/index.go.html", "templates/signupPage.go.html", "templates/loginForm.go.html", "templates/registerForm.go.html", "templates/strongPassword.go.html"))
 		err := tmpls.ExecuteTemplate(w, "Base", nil)
 		if err != nil {
 			return
 		}
-
 	})
 	log.Fatal(http.ListenAndServe("localhost:3000", r))
 }

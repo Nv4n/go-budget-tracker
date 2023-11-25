@@ -131,17 +131,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@preline/strong-password@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@preline/strong-password@npm:2.0.0"
-  checksum: 0b8f3fe3cd95c60cda3d1f41742943b825e66d33253ccd402ee8fb09d2a35a101f0a656a6a0d870c21fc5cc1e5c6ee688f3c6dfdd83375ef2a859c34c7eb3445
+"@preline/strong-password@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@preline/strong-password@npm:2.0.1"
+  checksum: 3a5fe8197b3788f127f3e1aa0e18b18dd10b2145e8c28f72964eb0dcd506ae63b8d2db6a051900ea9e8d12fa5d9f43acc25ebbcf9555811e8c8d07ff40c5cff0
   languageName: node
   linkType: hard
 
-"@preline/tooltip@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@preline/tooltip@npm:2.0.0"
-  checksum: f4361713759b463597dfeada8d03a8efd87dcd515c22f26a5e8f5d8d45efdfadc7d7a56746bbac7797acbdad422aea3aa5fdc787eceff86f08cb415147ff6221
+"@preline/tabs@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@preline/tabs@npm:2.0.1"
+  checksum: c5014d8f64f005022ad889c5f9dc9c16109f481d56525e4e8900ed5da0270bcea08bc7c643cefd030a058cd52747ebaa3edf9f8dfb65820cea928e14a715ad45
+  languageName: node
+  linkType: hard
+
+"@preline/tooltip@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@preline/tooltip@npm:2.0.1"
+  checksum: b06e2d2a99478d2f4ebf966f1f451b0db5c6417c3841fbc9f541b4804f8897c5e56fea280148bb5110002e921e7bf9de971c78f03d1290297e2dd73ed6fa5729
   languageName: node
   linkType: hard
 
@@ -668,12 +675,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "go-budget-tracker@workspace:."
   dependencies:
-    "@preline/strong-password": ^2.0.0
-    "@preline/tooltip": ^2.0.0
+    "@preline/strong-password": ^2.0.1
+    "@preline/tabs": ^2.0.1
+    "@preline/tooltip": ^2.0.1
     "@tailwindcss/forms": ^0.5.7
     autoprefixer: ^10.4.16
     postcss: ^8.4.31
-    preline: ^2.0.0
+    preline: ^2.0.2
     prettier: ^3.1.0
     prettier-plugin-go-template: ^0.0.15
     prettier-plugin-tailwindcss: ^0.5.7
@@ -1309,12 +1317,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"preline@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "preline@npm:2.0.0"
+"preline@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "preline@npm:2.0.2"
   dependencies:
     "@popperjs/core": ^2.11.2
-  checksum: 0092c30ad0d8f63560d9b7b1886ebcba34384a03c88054d3991d4a63c7101f91f1f8faf1f4a3d37e0520eb630479916fa7c0feb5a4763fe1f05d6fa891fc489e
+  checksum: 9d896d6db8ecf3ce8c3f4cf94837b792587f06740661e06208e61f9e246ce56752cc161d624967398236e02704c185f200988db3c77b0845cffe68aa713f1977
   languageName: node
   linkType: hard
 
