@@ -37,9 +37,10 @@ CREATE TYPE public.transaction_type as ENUM ('income', 'expense');
 CREATE TABLE IF NOT EXISTS public.transactions
 (
     transaction_id   UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    wallet_id        UUID             NOT NULL,
-    amount           DECIMAL(10, 2)   NOT NULL,
+    wallet_id        UUID                    NOT NULL,
+    amount           DECIMAL(10, 2)          NOT NULL,
     transaction_type public.transaction_type NOT NULL,
+    category         varchar(255)            NOT NULL ,
     description      VARCHAR(255),
     transaction_date TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (wallet_id) REFERENCES public.wallets (wallet_id) ON DELETE CASCADE
@@ -52,8 +53,6 @@ CREATE TABLE IF NOT EXISTS public.budgets
     user_id    UUID           NOT NULL,
     category   VARCHAR(255)   NOT NULL,
     amount     DECIMAL(10, 2) NOT NULL,
-    start_date DATE           NOT NULL,
-    end_date   DATE           NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES public.users (user_id) ON DELETE CASCADE
 );
