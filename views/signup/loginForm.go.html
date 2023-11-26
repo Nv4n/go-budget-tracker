@@ -1,8 +1,0 @@
-{{ define "Login-Form" }}
-    {{block "Input" "Username"}}
-    {{end}}
-    {{$addonId := uuid}}
-    <div class="space-y-5" data-hs-toggle-password-group>
-        {{ template "Strong-Password" $addonId}}
-    </div>
-{{ end }}

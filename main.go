@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"github.com/Nv4n/go-budget-tracker/cmd/dotenv"
 	_ "github.com/doug-martin/goqu/v9/dialect/postgres"
 	"github.com/go-chi/chi/v5"
@@ -51,11 +52,28 @@ func main() {
 	}
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		tmpls := template.Must(template.New("").Funcs(funcMap).ParseFiles("views/index.go.html", "views/signup/signupPage.go.html", "views/signup/loginForm.go.html", "views/signup/registerForm.go.html", "views/signup/input.go.html", "views/signup/strongPassword.go.html"))
+		tmpls := template.Must(template.ParseFiles("views/index.go.html"))
 		err := tmpls.ExecuteTemplate(w, "Base", nil)
 		if err != nil {
 			return
 		}
 	})
+	r.Get("/login", func(w http.ResponseWriter, r *http.Request) {
+		tmpls := template.Must(template.New("login").Funcs(funcMap).ParseFiles("views/index.go.html", "views/signup/loginPage.go.html", "views/signup/input.go.html", "views/signup/strongPassword.go.html"))
+		w.Header().Set("Cache-Control", "public, max-age="+fmt.Sprintf("%d", 3600))
+		err := tmpls.ExecuteTemplate(w, "Base", nil)
+		if err != nil {
+			return
+		}
+	})
+	r.Get("/register", func(w http.ResponseWriter, r *http.Request) {
+		tmpls := template.Must(template.New("register").Funcs(funcMap).ParseFiles("views/index.go.html", "views/signup/registerPage.go.html", "views/signup/input.go.html", "views/signup/strongPassword.go.html"))
+		w.Header().Set("Cache-Control", "public, max-age="+fmt.Sprintf("%d", 3600))
+		err := tmpls.ExecuteTemplate(w, "Base", nil)
+		if err != nil {
+			return
+		}
+	})
+
 	log.Fatal(http.ListenAndServe("localhost:3000", r))
 }
