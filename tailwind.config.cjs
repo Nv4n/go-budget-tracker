@@ -1,7 +1,7 @@
 module.exports = {
 	darkMode: ["class"],
 	content: [
-		"./templates/**/*{.html,.templ}",
+		"./views/**/*{.html,.templ}",
 		"./node_modules/preline/dist/*.js",
 	],
 	theme: {
