@@ -1,0 +1,70 @@
+{{ define "content" }}
+    {{$currPage := .}}
+    {{$activeStyles := "py-4 px-1 inline-flex items-center gap-2 border-b-2 border-blue-500 text-sm font-medium whitespace-nowrap text-blue-600 focus:outline-none focus:text-blue-800"}}
+    {{$nonActiveStyles := "py-4 px-1 inline-flex items-center gap-2 border-b-2 border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600"}}
+
+    <card class="max-w-2xl block mx-auto my-0 ">
+        <div class="border-b-2 border-gray-200 dark:border-gray-700">
+            <nav class="-mb-0.5 flex justify-center space-x-6">
+
+                {{if eq $currPage "LOGIN"}}
+                    <a class={{$activeStyles}} aria-current="page" href="/login">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-login-2" width="24"
+                             height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M9 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2"/>
+                            <path d="M3 12h13l-3 -3"/>
+                            <path d="M13 15l3 -3"/>
+                        </svg>
+                        Login
+                    </a>
+                    <a class={{$nonActiveStyles}}
+                       href="/register">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus"
+                             width="24"
+                             height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/>
+                            <path d="M16 19h6"/>
+                            <path d="M19 16v6"/>
+                            <path d="M6 21v-2a4 4 0 0 1 4 -4h4"/>
+                        </svg>
+                        Register
+                    </a>
+                {{else}}
+                    <a class={{$nonActiveStyles}} href="/login" >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-login-2" width="24"
+                             height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M9 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2"/>
+                            <path d="M3 12h13l-3 -3"/>
+                            <path d="M13 15l3 -3"/>
+                        </svg>
+                        Login
+                    </a>
+                    <a class={{$activeStyles}}
+                       href="/register" aria-current="page">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus"
+                             width="24"
+                             height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/>
+                            <path d="M16 19h6"/>
+                            <path d="M19 16v6"/>
+                            <path d="M6 21v-2a4 4 0 0 1 4 -4h4"/>
+                        </svg>
+                        Register
+                    </a>
+                {{end}}
+            </nav>
+        </div>
+
+        {{block "User-Form" .}}
+            <p class="dark:text-white">Here stays either register or login form</p>
+        {{end}}
+    </card>
+{{end}}
