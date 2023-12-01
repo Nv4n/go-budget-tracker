@@ -1,4 +1,4 @@
-package budgettype
+package model
 
 type Budget struct {
 	Category string  `db:"category" json:"category"`

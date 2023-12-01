@@ -1,16 +1,6 @@
-package wallet
+package model
 
-import (
-	"github.com/Nv4n/go-budget-tracker/model/user"
-	"time"
-)
-
-type Wallet struct {
-	Name      string    `db:"wallet_name" json:"wallet_name"`
-	Balance   float64   `db:"balance" json:"balance"`
-	CreatedAt time.Time `db:"created_at" json:"created_at"`
-	User      *user.User
-}
+import "time"
 
 type TransactionType int
 
