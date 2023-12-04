@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/Nv4n/go-budget-tracker/routes"
 	_ "github.com/doug-martin/goqu/v9/dialect/postgres"
 	"github.com/go-chi/chi/v5"
@@ -12,7 +13,8 @@ import (
 
 func addCacheControl(h http.Handler, maxAge int) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Cache-Control", "public, max-age="+string(maxAge))
+		w.Header().Set("Cache-Control", fmt.Sprintf("private, max-age=%d", maxAge))
+		//w.Header().Set("Cache-Control", "private, no-cache")
 		h.ServeHTTP(w, r)
 	})
 }
@@ -21,7 +23,7 @@ func main() {
 
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
-	r.Use(middleware.Compress(5, "text/html", "text/css", "text/html; charset=utf-8\n", "text/html; charset=utf-8\n"))
+	r.Use(middleware.Compress(5, "text/html", "text/css", "text/css; charset=utf-8", "text/html; charset=utf-8"))
 	r.Use(middleware.Recoverer)
 
 	staticFileServer := http.StripPrefix("/static/", http.FileServer(http.Dir("./static")))
