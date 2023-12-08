@@ -4,11 +4,12 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/doug-martin/goqu/v9"
+	_ "github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
 )
 
 type User struct {
-	Id       string `db:"user_id" json:"user_id"`
+	Id       string `db:"user_id" json:"user_id" validate:"uuid4""`
 	Username string `db:"username" json:"username"`
 	Email    string `db:"email" json:"email"`
 }

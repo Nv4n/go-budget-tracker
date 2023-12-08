@@ -13,7 +13,7 @@ import (
 var db *sql.DB
 var dbgoqu *goqu.Database
 
-func Init() {
+func SetupDB() {
 	pgDb, err := sql.Open("postgres", dotenv.GetDotEnvVar("DB_CREDENTIALS"))
 	if err != nil {
 		panic(fmt.Errorf("problem opening DB: %s", err))

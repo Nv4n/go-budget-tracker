@@ -110,7 +110,7 @@ func UpdateBudget(b Budget) error {
 	}
 
 	err = tx.Wrap(func() error {
-		transactionQuery := tx.From("public.budget").
+		transactionQuery := tx.From("public.budgets").
 			Update().Set(b).Where(goqu.C("budget_id").Eq(b.Id)).
 			Executor()
 		_, eErr := transactionQuery.Exec()
