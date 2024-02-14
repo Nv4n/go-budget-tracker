@@ -14,7 +14,7 @@ var db *sql.DB
 var dbgoqu *goqu.Database
 
 func SetupDB() {
-	pgDb, err := sql.Open("postgres", dotenv.GetDotEnvVar("DB_CREDENTIALS"))
+	pgDb, err := sql.Open("postgres", dotenv.GetDotEnvVar("DEV_DB_CREDENTIALS"))
 	if err != nil {
 		panic(fmt.Errorf("problem opening DB: %s", err))
 	}

@@ -22,6 +22,10 @@ func HtmlContentMiddleware(next http.Handler) http.Handler {
 	})
 }
 
+type ParsedData struct {
+	ChartHTML string
+}
+
 func PageRouter() chi.Router {
 	r := chi.NewRouter()
 	funcMap := template.FuncMap{
@@ -29,15 +33,19 @@ func PageRouter() chi.Router {
 		"lower":  toLower,
 	}
 
+	r.Use(HtmlContentMiddleware)
 	r.Group(func(r chi.Router) {
-		r.Use(HtmlContentMiddleware)
 		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 			tmpls := template.Must(template.ParseFiles("views/index.go.html"))
+
 			err := tmpls.ExecuteTemplate(w, "Base", nil)
 			if err != nil {
 				return
 			}
 		})
+	})
+
+	r.Group(func(r chi.Router) {
 		r.Get("/login", func(w http.ResponseWriter, r *http.Request) {
 			tmpls := template.Must(template.New("login").Funcs(funcMap).ParseFiles("views/index.go.html", "views/signup/signupPage.go.html", "views/signup/loginForm.go.html", "views/signup/strongPassword.go.html", "views/signup/input.go.html"))
 			err := tmpls.ExecuteTemplate(w, "Base", "LOGIN")
