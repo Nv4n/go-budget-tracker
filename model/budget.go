@@ -4,11 +4,10 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/doug-martin/goqu/v9"
-	"github.com/google/uuid"
 )
 
 type Budget struct {
-	Id       string  `db:"budget_id" json:"budget_id"`
+	Id       *string `db:"budget_id" json:"budget_id"`
 	UserId   string  `db:"user_id" json:"user_id"`
 	Category string  `db:"category" json:"category"`
 	Amount   float64 `db:"amount" json:"amount"`
@@ -88,11 +87,9 @@ func InsertBudget(b Budget, userId string) error {
 		return fmt.Errorf("error starting transaction: %s", err)
 	}
 
-	budgetUUID := uuid.New().String()
-
 	err = tx.Wrap(func() error {
 		budgetQuery := tx.Insert("public.budgets").
-			Rows(Budget{budgetUUID, userId, b.Category, b.Amount}).
+			Rows(Budget{nil, userId, b.Category, b.Amount}).
 			Executor()
 		_, eErr := budgetQuery.Exec()
 		return eErr

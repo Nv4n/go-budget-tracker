@@ -18,11 +18,20 @@ func SetupDB() {
 	if err != nil {
 		panic(fmt.Errorf("problem opening DB: %s", err))
 	}
-	defer pgDb.Close()
 	if err = pgDb.Ping(); err != nil {
 		log.Fatalf("Problem connecting to DB: %s", err.Error())
 	}
 
+	db = pgDb
 	dialect := goqu.Dialect("postgres")
 	dbgoqu = dialect.DB(pgDb)
+}
+
+func CloseDb() {
+	defer func(db *sql.DB) {
+		err := db.Close()
+		if err != nil {
+			log.Println(err)
+		}
+	}(db)
 }

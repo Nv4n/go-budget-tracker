@@ -62,5 +62,6 @@ CREATE TABLE IF NOT EXISTS public.budgets
     amount     DECIMAL(10, 2) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES public.users (user_id) ON DELETE CASCADE,
-    PRIMARY KEY (budget_id)
+    PRIMARY KEY (budget_id),
+    CONSTRAINT uq_uid_category UNIQUE (user_id, category)
 );

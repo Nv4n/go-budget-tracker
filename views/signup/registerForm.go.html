@@ -9,7 +9,8 @@
         {{$addonID:= uuidv4}}
         <div class="relative max-w-sm w-full" data-hs-toggle-password-group>
 
-            {{ template "Strong-Password" $addonID}}
+            {{ block "Strong-Password" $addonID}}
+            {{end}}
 
             <div class="relative max-w-sm w-full">
                 <input

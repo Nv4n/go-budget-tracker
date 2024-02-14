@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "tcss": "tailwindcss -i ./src/index.css -o ./static/index.css --watch",
+    "tcss": "tailwindcss -i ./styles/index.css -o ./static/index.css --watch",
     "server": "go run github.com/Nv4n/go-budget-tracker"
   },
   "devDependencies": {
@@ -18,6 +18,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "dependencies": {
+    "@preline/select": "^2.0.2",
     "@preline/strong-password": "^2.0.1",
     "@preline/tabs": "^2.0.1",
     "@preline/tooltip": "^2.0.1",

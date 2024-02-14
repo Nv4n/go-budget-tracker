@@ -6,11 +6,13 @@ import (
 	_ "github.com/doug-martin/goqu/v9/dialect/postgres"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/docgen"
 	"github.com/go-chi/httprate"
 	"github.com/gorilla/sessions"
 	_ "github.com/lib/pq"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -65,5 +67,17 @@ func SetupServer() {
 
 	})
 
+	//genDoc(r)
+	log.Println("Listening to localhost:3000")
 	log.Fatal(http.ListenAndServe("localhost:3000", r))
+}
+
+func genDoc(r *chi.Mux) {
+	md := docgen.MarkdownRoutesDoc(r, docgen.MarkdownOpts{})
+	bytes := []byte(md)
+
+	err := os.WriteFile("./routes.md", bytes, os.ModeTemporary)
+	if err != nil {
+		log.Fatal(err)
+	}
 }

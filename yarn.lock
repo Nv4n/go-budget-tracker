@@ -131,6 +131,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@preline/select@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "@preline/select@npm:2.0.2"
+  checksum: c36fbea64aa3b9526b2fb2cee5c1c789fe8c863741d418111a99ed55beedfd1dc30c4d209fee0b70b8397825e1cc07e3158306b6935bc2355e63c05b3422f823
+  languageName: node
+  linkType: hard
+
 "@preline/strong-password@npm:^2.0.1":
   version: 2.0.1
   resolution: "@preline/strong-password@npm:2.0.1"
@@ -675,6 +682,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "go-budget-tracker@workspace:."
   dependencies:
+    "@preline/select": ^2.0.2
     "@preline/strong-password": ^2.0.1
     "@preline/tabs": ^2.0.1
     "@preline/tooltip": ^2.0.1

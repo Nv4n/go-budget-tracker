@@ -7,5 +7,9 @@ import (
 
 func main() {
 	model.SetupDB()
+	defer model.CloseDb()
+	routes.SetupSessions()
+	defer routes.CloseSessionStore()
+	defer routes.StopCleanup(routes.Cleanup())
 	routes.SetupServer()
 }
