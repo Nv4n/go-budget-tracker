@@ -2,13 +2,12 @@ package routes
 
 import (
 	"fmt"
-	"github.com/Nv4n/go-budget-tracker/cmd/dotenv"
 	_ "github.com/doug-martin/goqu/v9/dialect/postgres"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/cors"
 	"github.com/go-chi/docgen"
 	"github.com/go-chi/httprate"
-	"github.com/gorilla/sessions"
 	_ "github.com/lib/pq"
 	"log"
 	"net/http"
@@ -24,12 +23,6 @@ func addCacheControl(h http.Handler, maxAge int) http.Handler {
 	})
 }
 
-var (
-	store    *sessions.CookieStore
-	AUTH_KEY string = "authenticated"
-	USER_ID  string = "user_id"
-)
-
 func SetupServer() {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
@@ -37,15 +30,14 @@ func SetupServer() {
 	r.Use(middleware.RequestID)
 	r.Use(httprate.LimitByIP(100, 1*time.Minute))
 	r.Use(middleware.Recoverer)
-
-	store = sessions.NewCookieStore([]byte(dotenv.GetDotEnvVar("SESSION_TOKEN")))
-	store.Options = &sessions.Options{
-		Path:   "/",
-		MaxAge: 3600 * 5,
-		//Secure: true, for https
-		HttpOnly: true,
-		SameSite: http.SameSiteStrictMode,
-	}
+	r.Use(cors.Handler(cors.Options{
+		AllowedOrigins:   []string{"https://*", "http://*"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Access-Control-Allow-Origin", "Authorization", "Content-Type", "X-CSRF-Token"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: true,
+		MaxAge:           300,
+	}))
 
 	staticFileServer := http.StripPrefix("/static/", http.FileServer(http.Dir("./static")))
 	r.Handle("/static/*", addCacheControl(staticFileServer, 31536000))

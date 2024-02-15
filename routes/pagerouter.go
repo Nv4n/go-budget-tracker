@@ -24,6 +24,7 @@ func PageRouter() chi.Router {
 
 	r.Use(HtmlContentMiddleware)
 	r.Group(func(r chi.Router) {
+		r.Use(AuthMiddleWare)
 		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 			tmpls := template.Must(template.ParseFiles("views/index.go.html"))
 

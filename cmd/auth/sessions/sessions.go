@@ -2,16 +2,16 @@ package auth
 
 import (
 	"github.com/Nv4n/go-budget-tracker/cmd/dotenv"
-	"github.com/antonlindstrom/pgstore"
 	"log"
 	"time"
 )
 
-var AuthStore *pgstore.PGStore
+var AuthStore *PGStore
 
 func SetupSessions() {
 	// Fetch new store.
-	store, err := pgstore.NewPGStore(dotenv.GetDotEnvVar("DEV_DB_CREDENTIALS"), []byte("secret-key"))
+
+	store, err := NewPGStore(dotenv.GetDotEnvVar("DEV_DB_CREDENTIALS"), []byte("secret-key"), []byte("secret-key2"))
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
