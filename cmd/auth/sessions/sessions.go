@@ -1,21 +1,23 @@
-package auth
+package sessions
 
 import (
+	"github.com/Nv4n/go-budget-tracker/cmd/auth/pgstore"
 	"github.com/Nv4n/go-budget-tracker/cmd/dotenv"
 	"log"
 	"time"
 )
 
-var AuthStore *PGStore
+var AuthStore *pgstore.PGStore
 
 func SetupSessions() {
 	// Fetch new store.
 
-	store, err := NewPGStore(dotenv.GetDotEnvVar("DEV_DB_CREDENTIALS"), []byte("secret-key"), []byte("secret-key2"))
+	store, err := pgstore.NewPGStore(dotenv.GetDotEnvVar("DEV_DB_CREDENTIALS"), []byte("secret-key"), []byte("secret-key2"))
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
 	AuthStore = store
+	AuthStore.MaxAge(3600)
 }
 
 func CloseSessionStore() {

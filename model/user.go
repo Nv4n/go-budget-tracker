@@ -3,6 +3,7 @@ package model
 import (
 	"database/sql"
 	"fmt"
+	"github.com/Nv4n/go-budget-tracker/routes"
 	"github.com/doug-martin/goqu/v9"
 	_ "github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
@@ -65,6 +66,42 @@ func GetUserById(id string) (User, error) {
 		userQuery := tx.From("public.users").
 			Select("user_id", "username", "email").
 			Where(goqu.C("user_id").Eq(id)).
+			Limit(1).
+			Executor()
+		r, eErr := userQuery.Query()
+		rows = r
+		return eErr
+	})
+	defer rows.Close()
+
+	if err != nil {
+		return User{}, fmt.Errorf("failed get user by id query: %s", err)
+	}
+
+	var user User
+	for rows.Next() {
+		if err := rows.Scan(&user.Id, &user.Username, &user.Email); err != nil {
+			return User{}, err
+		}
+	}
+	if err = rows.Err(); err != nil {
+		return User{}, err
+	}
+	fmt.Printf("Got user{ %s } successfully", id)
+	return user, nil
+}
+
+func GetUserAuth(u routes.UserAuthLoginDto) (User, error) {
+	tx, err := dbgoqu.Begin()
+	if err != nil {
+		return User{}, fmt.Errorf("error starting transaction: %s", err)
+	}
+
+	var rows *sql.Rows
+	err = tx.Wrap(func() error {
+		userQuery := tx.From("public.users").
+			Select("user_id", "username").
+			Where(goqu.C("username").Eq(u.Username)).
 			Limit(1).
 			Executor()
 		r, eErr := userQuery.Query()
