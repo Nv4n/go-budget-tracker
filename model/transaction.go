@@ -16,7 +16,7 @@ const (
 )
 
 type Transaction struct {
-	Id              string          `db:"transaction_id" json:"transaction_id"`
+	Id              string          `db:"transaction_id" json:"transaction_id" goqu:"defaultifempty"`
 	WalletId        string          `db:"wallet_id" json:"walled_id"`
 	Amount          float64         `db:"amount" json:"amount"`
 	TransactionType TransactionType `db:"transaction_type" json:"transaction_type"`

@@ -18,6 +18,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "dependencies": {
+    "@preline/collapse": "^2.0.2",
     "@preline/select": "^2.0.2",
     "@preline/strong-password": "^2.0.1",
     "@preline/tabs": "^2.0.1",

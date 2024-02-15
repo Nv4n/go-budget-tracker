@@ -9,7 +9,7 @@ import (
 )
 
 type Wallet struct {
-	Id        string    `db:"wallet_id" json:"wallet_id"`
+	Id        string    `db:"wallet_id" json:"wallet_id" goqu:"defaultifempty"`
 	UserId    string    `db:"user_id" json:"user_id" goqu:"omitempty"`
 	Name      string    `db:"wallet_name" json:"wallet_name"`
 	Balance   float64   `db:"balance" json:"balance"`

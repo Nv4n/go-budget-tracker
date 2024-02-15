@@ -1,0 +1,116 @@
+{{define "content"}}
+    <form hx-post="/transaction/create" class="max-w-lg flex flex-col gap-2 p-2">
+        {{$addonID:=uuidv4}}
+        <div class="relative max-w-sm w-full">
+            <input
+                    type=text
+                    name="amount"
+                    pattern="[1-9]\d*"
+                    id="hs-floating-underline-input-amount-{{$addonID}}"
+                    class="peer block w-full border-b-2 border-x-transparent border-b-gray-200 border-t-transparent bg-transparent
+        px-0 py-4 text-sm placeholder:text-transparent autofill:pb-2 autofill:pt-6 focus:border-x-transparent
+        focus:border-b-blue-500 focus:border-t-transparent focus:pb-2 focus:pt-6 focus:ring-0
+        disabled:pointer-events-none disabled:opacity-50 dark:border-b-gray-700 dark:text-gray-400
+        dark:focus:border-b-gray-600 dark:focus:ring-gray-600 [&:not(:placeholder-shown)]:pb-2
+        [&:not(:placeholder-shown)]:pt-6"
+                    placeholder="amount"
+            />
+            <label
+                    for="hs-floating-underline-input-amount-{{$addonID}}"
+                    class="pointer-events-none absolute start-0 top-0 h-full truncate border border-transparent px-0 py-4 text-sm transition duration-100 ease-in-out peer-focus:-translate-y-1.5 peer-focus:text-xs peer-focus:text-gray-500 peer-disabled:pointer-events-none peer-disabled:opacity-50 peer-[:not(:placeholder-shown)]:-translate-y-1.5 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-gray-500 dark:text-white"
+            >Amount</label
+            >
+        </div>
+
+        <div class="max-w-md">
+            <div>
+                <div class="relative">
+                    <select name="type" data-hs-select='{
+      "hasSearch": true,
+      "searchPlaceholder": "Search...",
+      "searchClasses": "block w-full text-sm border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 before:absolute before:inset-0 before:z-[1] dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 py-2 px-3",
+      "searchWrapperClasses": "bg-white p-2 -mx-1 sticky top-0 dark:bg-slate-900",
+      "placeholder": "Select type...",
+      "toggleTag": "<button type=\"button\"><span class=\"me-2\" data-icon></span><span class=\"text-gray-800 dark:text-gray-200\" data-title></span></button>",
+      "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-3 px-4 pe-9 flex text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg text-start text-sm focus:border-blue-500 focus:ring-blue-500 before:absolute before:inset-0 before:z-[1] dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600",
+      "dropdownClasses": "mt-2 max-h-72 pb-1 px-1 space-y-0.5 z-20 w-full bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto dark:bg-slate-900 dark:border-gray-700",
+      "optionClasses": "py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-gray-200 dark:focus:bg-slate-800",
+      "optionTemplate": "<div><div class=\"flex items-center\"><div class=\"me-2\" data-icon></div><div class=\"text-gray-800 dark:text-gray-200\" data-title></div></div></div>"
+    }' class="hidden">
+                        <option value="">Choose</option>
+                        <option value="expense">
+                            Income
+                        </option>
+                        <option value="income">
+                            Expense
+                        </option>
+                    </select>
+
+                    <div class="absolute top-1/2 end-3 -translate-y-1/2">
+                        <svg class="flex-shrink-0 size-3.5 text-gray-500 dark:text-gray-500"
+                             xmlns="http://www.w3.org/2000/svg"
+                             width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m7 15 5 5 5-5"/>
+                            <path d="m7 9 5-5 5 5"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-md">
+            <div>
+                <div class="relative">
+                    <select name="category" data-hs-select='{
+      "hasSearch": true,
+      "searchPlaceholder": "Search...",
+      "searchClasses": "block w-full text-sm border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 before:absolute before:inset-0 before:z-[1] dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 py-2 px-3",
+      "searchWrapperClasses": "bg-white p-2 -mx-1 sticky top-0 dark:bg-slate-900",
+      "placeholder": "Select category...",
+      "toggleTag": "<button type=\"button\"><span class=\"me-2\" data-icon></span><span class=\"text-gray-800 dark:text-gray-200\" data-title></span></button>",
+      "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-3 px-4 pe-9 flex text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg text-start text-sm focus:border-blue-500 focus:ring-blue-500 before:absolute before:inset-0 before:z-[1] dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600",
+      "dropdownClasses": "mt-2 max-h-72 pb-1 px-1 space-y-0.5 z-20 w-full bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto dark:bg-slate-900 dark:border-gray-700",
+      "optionClasses": "py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:bg-slate-900 dark:hover:bg-slate-800 dark:text-gray-200 dark:focus:bg-slate-800",
+      "optionTemplate": "<div><div class=\"flex items-center\"><div class=\"me-2\" data-icon></div><div class=\"text-gray-800 dark:text-gray-200\" data-title></div></div></div>"
+    }' class="hidden">
+                        <option value="">Choose</option>
+                        <option value="AF">
+                            Afghanistan
+                        </option>
+                        <option value="AD">
+                            AfDSADASD
+                        </option>
+                    </select>
+
+                    <div class="absolute top-1/2 end-3 -translate-y-1/2">
+                        <svg class="flex-shrink-0 size-3.5 text-gray-500 dark:text-gray-500"
+                             xmlns="http://www.w3.org/2000/svg"
+                             width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m7 15 5 5 5-5"/>
+                            <path d="m7 9 5-5 5 5"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{/*    {{block "Select" .Category}}*/}}
+        {{/*        Category*/}}
+        {{/*    {{end}}*/}}
+        {{block "Input" "Description"}}
+            Description
+        {{end}}
+        {{block "Input" "Date"}}
+        {{end}}
+
+        <button type="submit"
+                class="max-w-sm py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-gray-800 text-gray-800 hover:border-gray-500 hover:text-gray-500 disabled:opacity-50 disabled:pointer-events-none dark:border-white dark:text-white dark:hover:text-gray-300 dark:hover:border-gray-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+            Create
+        </button>
+    </form>
+
+{{end}}

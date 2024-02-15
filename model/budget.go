@@ -7,7 +7,7 @@ import (
 )
 
 type Budget struct {
-	Id       *string `db:"budget_id" json:"budget_id"`
+	Id       *string `db:"budget_id" json:"budget_id" goqu:"defaultifempty"`
 	UserId   string  `db:"user_id" json:"user_id"`
 	Category string  `db:"category" json:"category"`
 	Amount   float64 `db:"amount" json:"amount"`

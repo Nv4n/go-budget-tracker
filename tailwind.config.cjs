@@ -4,7 +4,6 @@ module.exports = {
 		"./views/**/*{.go.html,.html,.templ}",
 		"./routes/**/*.go",
 		"./node_modules/preline/dist/*.js",
-		"./templ/**/*{.go.html,.html,.templ}"
 	],
 	theme: {
 		extend: {},

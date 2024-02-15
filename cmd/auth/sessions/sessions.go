@@ -12,7 +12,7 @@ var AuthStore *pgstore.PGStore
 func SetupSessions() {
 	// Fetch new store.
 
-	store, err := pgstore.NewPGStore(dotenv.GetDotEnvVar("DEV_DB_CREDENTIALS"), []byte("secret-key"), []byte("secret-key2"))
+	store, err := pgstore.NewPGStore(dotenv.GetDotEnvVar("DEV_DB_CREDENTIALS"), []byte(dotenv.GetDotEnvVar("SESS_KEY")))
 	if err != nil {
 		log.Fatalf(err.Error())
 	}

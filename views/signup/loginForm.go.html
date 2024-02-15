@@ -1,11 +1,12 @@
 {{ define "User-Form" }}
-    <form class="grid place-items-center">
+    <form class="grid place-items-center" hx-boost="true">
         {{block "Input" "Username"}}
         {{end}}
         {{$addonId := uuidv4}}
         {{ block "Strong-Password" $addonId}}
         {{end}}
-        <button type="button"
+        <div id="any-errors-login"></div>
+        <button type="button" hx-post="/auth/login" hx-target-error="#any-errors-login"
                 class="my-3 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
             Submit
             <svg xmlns="http://www.w3.org/2000/svg" class=" icon icon-tabler icon-tabler-arrow-big-up" width="24"

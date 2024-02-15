@@ -26,7 +26,83 @@ func PageRouter() chi.Router {
 	r.Group(func(r chi.Router) {
 		r.Use(AuthMiddleWare)
 		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-			tmpls := template.Must(template.ParseFiles("views/index.go.html"))
+			tmpls := template.Must(template.New("").Funcs(funcMap).ParseFiles(
+				"views/index.go.html",
+				"views/components/nav.go.html"))
+
+			err := tmpls.ExecuteTemplate(w, "Base", nil)
+			if err != nil {
+				return
+			}
+		})
+		r.Get("/budget/create", func(w http.ResponseWriter, r *http.Request) {
+			tmpls := template.Must(template.New("budget-create").Funcs(funcMap).ParseFiles(
+				"views/index.go.html",
+				"views/components/nav.go.html",
+				"views/forms/createBudgetForm.go.html",
+				"views/components/input.go.html"))
+
+			err := tmpls.ExecuteTemplate(w, "Base", nil)
+			if err != nil {
+				return
+			}
+		})
+		r.Get("/budget/{id}/edit", func(w http.ResponseWriter, r *http.Request) {
+			tmpls := template.Must(template.New("budget-edit").Funcs(funcMap).ParseFiles(
+				"views/index.go.html",
+				"views/components/nav.go.html",
+				"views/forms/editBudgetForm.go.html"))
+
+			err := tmpls.ExecuteTemplate(w, "Base", nil)
+			if err != nil {
+				return
+			}
+		})
+
+		r.Get("/transaction/create", func(w http.ResponseWriter, r *http.Request) {
+			tmpls := template.Must(template.New("transaction-create").Funcs(funcMap).ParseFiles(
+				"views/index.go.html",
+				"views/components/nav.go.html",
+				"views/forms/createTransactionForm.go.html",
+				"views/components/input.go.html",
+				"views/components/select.go.html"))
+
+			err := tmpls.ExecuteTemplate(w, "Base", nil)
+			if err != nil {
+				return
+			}
+		})
+		r.Get("/transaction/{id}/edit", func(w http.ResponseWriter, r *http.Request) {
+			tmpls := template.Must(template.New("transaction-edit").Funcs(funcMap).ParseFiles(
+				"views/index.go.html",
+				"views/components/nav.go.html",
+				"views/forms/editTransactionForm.go.html",
+				"views/components/input.go.html",
+				"views/components/select.go.html"))
+
+			err := tmpls.ExecuteTemplate(w, "Base", nil)
+			if err != nil {
+				return
+			}
+		})
+
+		r.Get("/wallet/create", func(w http.ResponseWriter, r *http.Request) {
+			tmpls := template.Must(template.New("wallet-create").Funcs(funcMap).ParseFiles(
+				"views/index.go.html",
+				"views/components/nav.go.html",
+				"views/forms/createWalletForm.go.html",
+				"views/components/input.go.html"))
+
+			err := tmpls.ExecuteTemplate(w, "Base", nil)
+			if err != nil {
+				return
+			}
+		})
+		r.Get("/wallet/{id}/edit", func(w http.ResponseWriter, r *http.Request) {
+			tmpls := template.Must(template.New("wallet-edit").Funcs(funcMap).ParseFiles(
+				"views/index.go.html",
+				"views/components/nav.go.html",
+				"views/forms/editWalletForm.go.html"))
 
 			err := tmpls.ExecuteTemplate(w, "Base", nil)
 			if err != nil {

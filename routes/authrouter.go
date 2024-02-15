@@ -9,21 +9,11 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-playground/validator/v10"
 	"golang.org/x/crypto/bcrypt"
+	"html/template"
 	"log"
 	"net/http"
 	"regexp"
 )
-
-type UserAuthRegisterDto struct {
-	Username   string `validate:"required,email" json:"username"`
-	Email      string `validate:"required" json:"email"`
-	Password   string `validate:"required,min=8,max=32,password" json:"password"`
-	Repassword string `validate:"required,eqfield=Password" json:"repassword"`
-}
-type UserAuthLoginDto struct {
-	Username string `validate:"required,email" json:"username"`
-	Password string `validate:"required,min=8,max=32,password" json:"password"`
-}
 
 var validate *validator.Validate
 
@@ -34,13 +24,47 @@ func init() {
 }
 
 func MatchPassword(fl validator.FieldLevel) bool {
-	value := fl.Field().String()
-	return regexp.MustCompile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,32}$").Match([]byte(value))
+	password := fl.Field().String()
+	// Check for minimum length
+	if len(password) < 8 || len(password) > 32 {
+		return false
+	}
+
+	// Check for presence of at least one digit
+	digitPattern := `\d`
+	hasDigit, _ := regexp.MatchString(digitPattern, password)
+	if !hasDigit {
+		return false
+	}
+
+	// Check for presence of at least one lowercase letter
+	lowerCasePattern := `[a-z]`
+	hasLowerCase, _ := regexp.MatchString(lowerCasePattern, password)
+	if !hasLowerCase {
+		return false
+	}
+
+	// Check for presence of at least one uppercase letter
+	upperCasePattern := `[A-Z]`
+	hasUpperCase, _ := regexp.MatchString(upperCasePattern, password)
+	if !hasUpperCase {
+		return false
+	}
+
+	// Check for presence of only letters and digits
+	numericPattern := `[0-9]`
+	allAlphaNumeric, _ := regexp.MatchString(numericPattern, password)
+	if !allAlphaNumeric {
+		return false
+	}
+
+	// If all checks pass, return true
+	return true
+
 }
 
 func AuthMiddleWare(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-
 		_, err := sessions.AuthStore.Get(r, dotenv.GetDotEnvVar("SESS_KEY"))
 		if err != nil {
 			w.Header().Set("Location", "/login") // Suggest a redirect location
@@ -62,14 +86,19 @@ func healthCheck(w http.ResponseWriter, r http.Request) {
 
 }
 
-func AuthRouter() {
+func AuthRouter() chi.Router {
 	r := chi.NewRouter()
 	r.Post("/register", func(w http.ResponseWriter, r *http.Request) {
+		log.Println("in register")
 		Register(w, r)
+
 	})
 	r.Post("/login", func(w http.ResponseWriter, r *http.Request) {
+		log.Println("in login")
 		Login(w, r)
 	})
+
+	return r
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
@@ -79,7 +108,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(400)
 		return
 	}
-	user := UserAuthRegisterDto{
+	user := model.UserAuthRegisterDto{
 		Email:      r.PostForm.Get("email"),
 		Username:   r.PostForm.Get("username"),
 		Password:   r.PostForm.Get("password"),
@@ -90,6 +119,17 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		var invalidValidationError *validator.InvalidValidationError
 		if errors.As(err, &invalidValidationError) {
 			fmt.Println(err)
+
+			tmpls := template.Must(template.New("error").Parse(`
+<div class="bg-red-100 border border-red-200 text-sm text-red-800 rounded-lg p-4 dark:bg-red-800/10 dark:border-red-900 dark:text-red-500" role="alert">
+  <span class="font-bold">Danger</span> Wrong attributes
+</div>
+`))
+			err := tmpls.ExecuteTemplate(w, "error", nil)
+			w.WriteHeader(400)
+			if err != nil {
+				w.WriteHeader(500)
+			}
 			return
 		}
 	}
@@ -97,6 +137,12 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	password, err := bcrypt.GenerateFromPassword([]byte(user.Password), 15)
 	if err != nil {
 		log.Println(err)
+		tmpls := template.Must(template.New("error").Parse(`
+<div class="bg-red-100 border border-red-200 text-sm text-red-800 rounded-lg p-4 dark:bg-red-800/10 dark:border-red-900 dark:text-red-500" role="alert">
+  <span class="font-bold">Danger</span>Server error
+</div>
+`))
+		_ = tmpls.ExecuteTemplate(w, "error", nil)
 		w.WriteHeader(500)
 		return
 	}
@@ -105,12 +151,36 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		Username: user.Username,
 	}
 
-	err = model.InsertUser(u, string(password))
+	uid, err := model.InsertUser(u, string(password))
 	if err != nil {
 		log.Println(err)
+
+		tmpls := template.Must(template.New("error").Parse(`
+<div class="bg-red-100 border border-red-200 text-sm text-red-800 rounded-lg p-4 dark:bg-red-800/10 dark:border-red-900 dark:text-red-500" role="alert">
+  <span class="font-bold">Danger</span> Wrong attributes
+</div>
+`))
+		_ = tmpls.ExecuteTemplate(w, "error", nil)
 		w.WriteHeader(500)
 		return
 	}
+
+	session, err := sessions.AuthStore.New(r, "sess")
+	if err != nil {
+		log.Println(err)
+		http.Redirect(w, r, "/login", 307)
+		return
+	}
+
+	session.Values["uid"] = uid
+	err = sessions.AuthStore.Save(r, w, session)
+	if err != nil {
+		log.Println(err)
+		http.Redirect(w, r, "/login", 307)
+		return
+	}
+	w.WriteHeader(201)
+
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
@@ -120,7 +190,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(400)
 		return
 	}
-	user := UserAuthLoginDto{
+	user := model.UserAuthLoginDto{
 		Username: r.PostForm.Get("username"),
 		Password: r.PostForm.Get("password"),
 	}
@@ -129,6 +199,16 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		var invalidValidationError *validator.InvalidValidationError
 		if errors.As(err, &invalidValidationError) {
 			fmt.Println(err)
+			w.WriteHeader(400)
+			tmpls := template.Must(template.New("error").Parse(`
+<div class="bg-red-100 border border-red-200 text-sm text-red-800 rounded-lg p-4 dark:bg-red-800/10 dark:border-red-900 dark:text-red-500" role="alert">
+  <span class="font-bold">Danger</span> Wrong attributes
+</div>
+`))
+			err := tmpls.ExecuteTemplate(w, "error", nil)
+			if err != nil {
+				w.WriteHeader(500)
+			}
 			return
 		}
 	}
@@ -136,18 +216,28 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	password, err := bcrypt.GenerateFromPassword([]byte(user.Password), 15)
 	if err != nil {
 		log.Println(err)
+		tmpls := template.Must(template.New("error").Parse(`
+<div class="bg-red-100 border border-red-200 text-sm text-red-800 rounded-lg p-4 dark:bg-red-800/10 dark:border-red-900 dark:text-red-500" role="alert">
+  <span class="font-bold">Danger</span>Server error
+</div>
+`))
+		_ = tmpls.ExecuteTemplate(w, "error", nil)
 		w.WriteHeader(500)
 		return
 	}
-	u := model.User{
-		Email:    user.Email,
-		Username: user.Username,
-	}
+	user.Password = string(password)
 
-	err = model.GetUserById(u, string(password))
+	getU, err := model.GetUserAuth(user)
 	if err != nil {
 		log.Println(err)
-		w.WriteHeader(403)
+		tmpls := template.Must(template.New("error").Parse(`
+<div class="bg-red-100 border border-red-200 text-sm text-red-800 rounded-lg p-4 dark:bg-red-800/10 dark:border-red-900 dark:text-red-500" role="alert">
+  <span class="font-bold">Danger</span>Server error
+</div>
+`))
+		_ = tmpls.ExecuteTemplate(w, "error", nil)
+		w.WriteHeader(500)
 		return
 	}
+	log.Println(getU)
 }

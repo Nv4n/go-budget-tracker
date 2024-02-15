@@ -6,8 +6,11 @@
         <input
                 type={{if eq $type "email"}} {{"email"}}
                 {{- else if or (eq $type "password") (eq $type "re-password")}} {{"password"}}
+                {{- else if eq $type "date"}} {{"date"}}
                 {{- else}} {{"text"}} {{- end}}
                 name={{lower .}}
+                pattern={{- if or (eq $type "amount") (eq $type "balance")}} {{"^[1-9][0-9]*$"}}
+                {{- else}} {{".*"}} {{- end}}
                 id="hs-floating-underline-input-{{lower .}}-{{$addonID}}"
                 class="peer block w-full border-b-2 border-x-transparent border-b-gray-200 border-t-transparent bg-transparent px-0 py-4 text-sm placeholder:text-transparent autofill:pb-2 autofill:pt-6 focus:border-x-transparent focus:border-b-blue-500 focus:border-t-transparent focus:pb-2 focus:pt-6 focus:ring-0 disabled:pointer-events-none disabled:opacity-50 dark:border-b-gray-700 dark:text-gray-400 dark:focus:border-b-gray-600 dark:focus:ring-gray-600 [&:not(:placeholder-shown)]:pb-2 [&:not(:placeholder-shown)]:pt-6"
                 placeholder={{.}}

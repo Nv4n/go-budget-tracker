@@ -45,7 +45,9 @@ func SetupServer() {
 	r.Handle("/preline/*", addCacheControl(staticFileServer, 31536000))
 
 	pr := PageRouter()
+	authRouter := AuthRouter()
 	r.Mount("/", pr)
+	r.Mount("/auth", authRouter)
 
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
@@ -56,7 +58,6 @@ func SetupServer() {
 		if err != nil {
 			panic(err)
 		}
-
 	})
 
 	//genDoc(r)
