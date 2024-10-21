@@ -53,10 +53,8 @@ func NewPGStoreFromPool(db *sql.DB, keyPairs ...[]byte) (*PGStore, error) {
 	dbStore := &PGStore{
 		Codecs: securecookie.CodecsFromPairs(keyPairs...),
 		Options: &sessions.Options{
-			Path: "/",
-			// Secure: true, // for https
-			MaxAge:   3600,
-			SameSite: http.SameSiteStrictMode,
+			Path:   "/",
+			MaxAge: 86400 * 30,
 		},
 		DbPool: db,
 	}

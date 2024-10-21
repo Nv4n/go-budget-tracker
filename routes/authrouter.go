@@ -65,18 +65,19 @@ func MatchPassword(fl validator.FieldLevel) bool {
 
 func AuthMiddleWare(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		_, err := sessions.AuthStore.Get(r, dotenv.GetDotEnvVar("SESS_KEY"))
-		if err != nil {
-			w.Header().Set("Location", "/login") // Suggest a redirect location
-			w.WriteHeader(http.StatusTemporaryRedirect)
-			return
-		}
-		path := r.URL.Path
-		if http.MethodGet == r.Method &&
-			(path == "login" || path == "logout" || path == "register") {
-			w.Header().Set("Location", "/") // Suggest a redirect location
-			w.WriteHeader(http.StatusTemporaryRedirect)
-		}
+		//_, err := sessions.AuthStore.Get(r, dotenv.GetDotEnvVar("SESS_KEY"))
+		//
+		//if err != nil {
+		//	w.Header().Set("Location", "/login") // Suggest a redirect location
+		//	w.WriteHeader(http.StatusTemporaryRedirect)
+		//	return
+		//}
+		//path := r.URL.Path
+		//if http.MethodGet == r.Method &&
+		//	(path == "login" || path == "logout" || path == "register") {
+		//	w.Header().Set("Location", "/") // Suggest a redirect location
+		//	w.WriteHeader(http.StatusTemporaryRedirect)
+		//}
 
 		next.ServeHTTP(w, r)
 	})
@@ -165,20 +166,35 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	session, err := sessions.AuthStore.New(r, "sess")
+	session, err := sessions.AuthStore.New(r, dotenv.GetDotEnvVar("SESS_KEY"))
 	if err != nil {
 		log.Println(err)
-		http.Redirect(w, r, "/login", 307)
+		w.Header().Set("HX-Redirect", "/login")
+		w.Header().Set("Location", "/login")
+		w.WriteHeader(307)
 		return
 	}
 
 	session.Values["uid"] = uid
+	session.AddFlash("flash", "test-flash")
+
+	if err = session.Save(r, w); err != nil {
+		log.Println(err)
+		w.Header().Set("HX-Redirect", "/login")
+		w.Header().Set("Location", "/login")
+		w.WriteHeader(307)
+		return
+	}
 	err = sessions.AuthStore.Save(r, w, session)
 	if err != nil {
 		log.Println(err)
-		http.Redirect(w, r, "/login", 307)
+		w.Header().Set("HX-Redirect", "/login")
+		w.Header().Set("Location", "/login")
+		w.WriteHeader(307)
 		return
 	}
+	w.Header().Set("HX-Redirect", "/")
+	w.Header().Set("Location", "/")
 	w.WriteHeader(201)
 
 }
@@ -239,5 +255,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(500)
 		return
 	}
+	w.Header().Set("HX-Redirect", "/")
+	w.Header().Set("Location", "/")
+	w.WriteHeader(200)
 	log.Println(getU)
 }

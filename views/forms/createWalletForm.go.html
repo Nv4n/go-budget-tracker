@@ -1,26 +1,39 @@
 {{define "content"}}
-    {{block  "Input" "Wallet Name"}}
-        Name
-    {{end}}
-    {{$addonID:=uuidv4}}
+    <form>
+        {{block  "Input" "Wallet Name"}}
+            Name
+        {{end}}
+        {{$addonID:=uuidv4}}
 
-    <div class="relative max-w-sm w-full">
-        <input
-                type=text
-                name="balance"
-                id="hs-floating-underline-input-balance-{{$addonID}}"
-                class="peer block w-full border-b-2 border-x-transparent border-b-gray-200 border-t-transparent bg-transparent
+        <div class="relative max-w-sm w-full">
+            <input
+                    type=text
+                    name="balance"
+                    id="hs-floating-underline-input-balance-{{$addonID}}"
+                    class="peer block w-full border-b-2 border-x-transparent border-b-gray-200 border-t-transparent bg-transparent
     px-0 py-4 text-sm placeholder:text-transparent autofill:pb-2 autofill:pt-6 focus:border-x-transparent
     focus:border-b-blue-500 focus:border-t-transparent focus:pb-2 focus:pt-6 focus:ring-0
     disabled:pointer-events-none disabled:opacity-50 dark:border-b-gray-700 dark:text-gray-400
     dark:focus:border-b-gray-600 dark:focus:ring-gray-600 [&:not(:placeholder-shown)]:pb-2
     [&:not(:placeholder-shown)]:pt-6"
-                placeholder="amount"
-        />
-        <label
-                for="hs-floating-underline-input-balance-{{$addonID}}"
-                class="pointer-events-none absolute start-0 top-0 h-full truncate border border-transparent px-0 py-4 text-sm transition duration-100 ease-in-out peer-focus:-translate-y-1.5 peer-focus:text-xs peer-focus:text-gray-500 peer-disabled:pointer-events-none peer-disabled:opacity-50 peer-[:not(:placeholder-shown)]:-translate-y-1.5 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-gray-500 dark:text-white"
-        >Balance</label
-        >
-    </div>
+                    placeholder="amount"
+            />
+            <label
+                    for="hs-floating-underline-input-balance-{{$addonID}}"
+                    class="pointer-events-none absolute start-0 top-0 h-full truncate border border-transparent px-0 py-4 text-sm transition duration-100 ease-in-out peer-focus:-translate-y-1.5 peer-focus:text-xs peer-focus:text-gray-500 peer-disabled:pointer-events-none peer-disabled:opacity-50 peer-[:not(:placeholder-shown)]:-translate-y-1.5 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-gray-500 dark:text-white"
+            >Balance</label
+            >
+        </div>
+        <div id="any-errors"></div>
+        <button type="button" hx-post="/budget/create" hx-target-error="#any-errors"
+                class="my-3 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+            Submit
+            <svg xmlns="http://www.w3.org/2000/svg" class=" icon icon-tabler icon-tabler-arrow-big-up" width="24"
+                 height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                 stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M9 20v-8h-3.586a1 1 0 0 1 -.707 -1.707l6.586 -6.586a1 1 0 0 1 1.414 0l6.586 6.586a1 1 0 0 1 -.707 1.707h-3.586v8a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"/>
+            </svg>
+        </button>
+    </form>
 {{end}}

@@ -116,38 +116,42 @@ func GetUserAuth(u UserAuthLoginDto) (User, error) {
 			Join(goqu.T("passwords"),
 				goqu.On(goqu.Ex{"users.user_id": goqu.I("passwords.user_id")})).
 			Executor()
-
+		log.Println(tx.From("public.users").
+			Select("users.user_id", "username", "passwords.password_hash").
+			Where(goqu.C("username").Eq(u.Username)).
+			Join(goqu.T("passwords"),
+				goqu.On(goqu.Ex{"users.user_id": goqu.I("passwords.user_id")})).ToSQL())
 		r, eErr := userQuery.Query()
 		rows = r
+		defer rows.Close()
+		if err != nil {
+			log.Println(err)
+			return fmt.Errorf("failed get user by auth query: %s", err)
+		}
+
+		var user User
+		var pass string
+		for rows.Next() {
+			if err := rows.Scan(&user.Id, &user.Username, &pass); err != nil {
+				log.Println("scan error")
+				return err
+			}
+		}
+		if err = rows.Err(); err != nil {
+			log.Println(user)
+			log.Println(pass)
+			log.Println("rows error")
+			return err
+		}
+		if pass != u.Password {
+			fmt.Printf("Got user {%s} but wrong password", u.Username)
+			return fmt.Errorf("failed get user by auth query")
+		}
+		fmt.Printf("Got user{ %s } successfully", u.Username)
 		return eErr
 	})
-	defer rows.Close()
 
-	if err != nil {
-		log.Println(err)
-		return User{}, fmt.Errorf("failed get user by auth query: %s", err)
-	}
-
-	var user User
-	var pass string
-	for rows.Next() {
-		if err := rows.Scan(&user.Id, &user.Username, &pass); err != nil {
-			log.Println("scan error")
-			return User{}, err
-		}
-	}
-	if err = rows.Err(); err != nil {
-		log.Println(user)
-		log.Println(pass)
-		log.Println("rows error")
-		return User{}, err
-	}
-	if pass != u.Password {
-		fmt.Printf("Got user {%s} but wrong password", u.Username)
-		return User{}, fmt.Errorf("failed get user by auth query")
-	}
-	fmt.Printf("Got user{ %s } successfully", u.Username)
-	return user, nil
+	return User{}, err
 }
 
 func InsertUser(u User, passwordHash string) (string, error) {

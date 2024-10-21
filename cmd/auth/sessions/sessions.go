@@ -17,7 +17,6 @@ func SetupSessions() {
 		log.Fatalf(err.Error())
 	}
 	AuthStore = store
-	AuthStore.MaxAge(3600)
 }
 
 func CloseSessionStore() {
